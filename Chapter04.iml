@@ -26,6 +26,7 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="spring-3.2.4" level="project" />
+    <orderEntry type="library" name="mysql:mysql-connector-java:5.1.9" level="project" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">

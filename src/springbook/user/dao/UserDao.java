@@ -1,58 +1,19 @@
 package springbook.user.dao;
 
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
-import springbook.user.domain.User;
-
-import javax.sql.DataSource;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: 2SsooN
- * Date: 2013. 11. 8.
- * Time: AM 12:13
- * To change this learningtest.template use File | Settings | File Templates.
- */
-public class UserDao {
-    private RowMapper<User> userMapper = new RowMapper<User>() {
-        @Override
-        public User mapRow(ResultSet rs, int i) throws SQLException {
-            User user = new User();
-            user.setId(rs.getString("id"));
-            user.setName(rs.getString("name"));
-            user.setPassword(rs.getString("password"));
-            return user;
-        }
-    };
+import springbook.user.domain.User;
 
-    private JdbcTemplate jdbcTemplate;
+public interface UserDao {
 
-    public void setDataSource(DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
-    }
+    void add(User user);
 
-    public void add(final User user) throws SQLException {
-        this.jdbcTemplate.update("INSERT INTO users(id, name, password) VALUES(?, ?, ?)",
-                user.getId(), user.getName(), user.getPassword());
-    }
+    User get(String id);
 
-    public User get(String id) throws SQLException {
-        return this.jdbcTemplate.queryForObject("SELECT * FROM users WHERE id = ?",
-            new Object[] {id}, this.userMapper);
-    }
+    List<User> getAll();
 
-    public void deleteAll() throws SQLException {
-        this.jdbcTemplate.update("DELETE FROM users");
-    }
+    void deleteAll();
 
-    public int getCount() throws SQLException {
-        return this.jdbcTemplate.queryForInt("SELECT COUNT(*) FROM users");
-    }
+    int getCount();
 
-    public List<User> getAll() {
-        return this.jdbcTemplate.query("SELECT * FROM users ORDER BY id", this.userMapper);
-    }
 }
